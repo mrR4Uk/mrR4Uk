@@ -1,0 +1,20 @@
+import requests
+from bs4 import BeautifulSoup
+
+def fetch_netflix_titles(url):
+    response = requests.get(url)
+    if response.status_code == 200:
+        soup = BeautifulSoup(response.content, 'html.parser')
+        titles = [title.get_text() for title in soup.find_all('h3')]
+        return titles
+    else:
+        return []
+
+def main():
+    netflix_url = 'https://www.netflix.com/browse/genre/83'  # Örnek URL
+    titles = fetch_netflix_titles(netflix_url)
+    for title in titles:
+        print(title)
+
+if __name__ == '__main__':
+    main()
